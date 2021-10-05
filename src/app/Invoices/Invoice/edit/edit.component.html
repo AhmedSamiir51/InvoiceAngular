@@ -1,0 +1,46 @@
+<div class="container">
+  <h3 mat-dialog-title>Edit Invoice </h3>
+
+  <form class="mat-dialog-content" (ngSubmit)="stopEdit()" #formControl="ngForm">
+
+    <div class="form" style="display: none !important;" >
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Id" [(ngModel)]="data.InvoiceID" name="Client_Id"  >
+      </mat-form-field>
+    </div>
+
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Customer Name" [(ngModel)]="data.CustomerName" name="CustomerName" required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <textarea matInput #inputstate class="form-control" placeholder="Notes" [(ngModel)]="data.Notes" name="Notes"  required ></textarea>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+        <mat-form-field color="accent">
+          <input matInput placeholder="Serial Number " name="Serial" [(ngModel)]="data.Serial" >
+        </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Date " type="text" name="Date" [(ngModel)]="data.Date" >
+      </mat-form-field>
+    </div>
+
+
+
+    <div mat-dialog-actions>
+      <button mat-button  type="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" >Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

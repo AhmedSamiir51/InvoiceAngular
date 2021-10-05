@@ -1,0 +1,100 @@
+<mat-toolbar color="primary">
+  <button class="btn " (click)="exportexcel()">
+    <mat-icon>open_in_new</mat-icon>
+  </button>
+  <button class="btn " (click)="Filters()">Filter</button>
+  <button class="btn " (click)="Print()">Print</button>
+  <button mat-icon-button (click)="getAllInvoice()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+  <button mat-icon-button color="weith" (click)="addNew()">
+    <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+  </button>
+  <div class="btn-group">
+    <button type="button" class="btn dropdown-toggle checkbox-menu allow-focus " data-bs-toggle="dropdown"
+      aria-expanded="false">
+      Hide
+    </button>
+    <ul class="dropdown-menu checkbox-menu allow-focus">
+      <li><label><input type="checkbox" (click)="checked2()"> Serial</label> </li>
+      <li><label><input type="checkbox" (click)="checked4()"> Date</label> </li>
+      <li><label><input type="checkbox" (click)="checked()"> CustomerName</label> </li>
+      <li><label><input type="checkbox" (click)="checked3()"> note</label> </li>
+    </ul>
+  </div>
+
+
+
+  <mat-form-field appearance="standard" [hidden]="Filter">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+
+</mat-toolbar>
+
+
+<div class="mat-elevation-z8">
+  <table id="excel-table" mat-table [dataSource]="Datasource" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Invoice Details </th>
+      <td mat-cell *matCellDef="let row">
+        <a routerLink="/home/calls/{{row.InvoiceID}}" mat-icon-button
+        aria-label="Example icon button with a open in new tab icon">
+        <mat-icon>open_in_new</mat-icon>
+      </a> </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="Serial">
+      <th mat-header-cell *matHeaderCellDef [hidden]="Serial" > Serial </th>
+      <td mat-cell *matCellDef="let row" [hidden]="Serial" > {{row.Serial}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Date">
+      <th mat-header-cell *matHeaderCellDef [hidden]="Date"> date </th>
+      <td mat-cell *matCellDef="let row" [hidden]="Date"> {{row.Date |date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="CustomerName">
+      <th mat-header-cell *matHeaderCellDef [hidden]="CustomerName"> CustomerName </th>
+      <td mat-cell *matCellDef="let row" [hidden]="CustomerName"> {{row.CustomerName}} </td>
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="note">
+      <th mat-header-cell *matHeaderCellDef [hidden]="note"> Notes </th>
+      <td mat-cell *matCellDef="let row" [hidden]="note"> {{row.Notes}} </td>
+    </ng-container>
+
+    <!-- actions -->
+    <ng-container matColumnDef="Action">
+      <mat-header-cell *matHeaderCellDef>
+
+        <mat-cell *matCellDef="let row; let i=index;">
+
+          <button mat-icon-button color="accent">
+            <mat-icon aria-label="Edit" (click)="startEdit( row.InvoiceID , row.CustomerName,row.Notes, row.Serial,row.Date)">edit
+            </mat-icon>
+          </button>
+
+          <button mat-icon-button color="accent"
+            (click)="deleteItem(row.InvoiceID , row.CustomerName,row.Notes, row.Serial,row.Date)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+
+        </mat-cell>
+      </mat-header-cell>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">The Table is empty  "{{input.value}}"</td>
+    </tr>
+  </table>
+
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
